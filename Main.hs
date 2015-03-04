@@ -85,6 +85,7 @@ main = getArgs >>= \args ->
                 myFilter (pid,cmdline) = (fromString arg `BS.isInfixOf` cmdline) && myPid /= pid
             in filter myFilter <$> pidsWithCmdlines >>= \case
                 [] -> putStrLn $ "No process matching \""++arg++"\" found."
+                x:[] -> watch' $ fst $ x
                 filtered -> let numbers = take (length filtered) [1..] 
                                 alignnumbers = maximum $ map (length.show) numbers
                                 alignpids = maximum $ map (length.show.fst) filtered
